@@ -7,7 +7,7 @@ on:
     - cron: "0 1 * * 0"
 
 jobs:
-  release-bib:
+  build-kernel:
     runs-on: ubuntu-latest
 
     permissions:
@@ -20,7 +20,7 @@ jobs:
         run: docker build -t personal-kernel .
 
       - name: Query source code version
-        run: docker run --rm -v${PWD}/build:build personal-kernel /query.sh
+        run: docker run --rm -v${PWD}/build:/build personal-kernel /query.sh
 
       - name: Check release exist
         run: |
@@ -29,7 +29,7 @@ jobs:
       - name: Build kernel
         run: |
           if [ -f updated ]; then
-            docker run --rm -v${PWD}/build:build personal-kernel /build.sh
+            docker run --rm -v${PWD}/build:/build personal-kernel /build.sh
           fi
 
       - name: Upload kernel
