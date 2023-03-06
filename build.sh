@@ -11,5 +11,6 @@ xz -d -c /usr/src/linux-config-*/config.amd64_none_amd64.xz > .config
 cp /config-fragment .config-fragment
 ./scripts/kconfig/merge_config.sh .config .config-fragment
 make clean
+sed -i 's/^EXTRAVERSION\s*=.*/EXTRAVERSION = -pusnow/' Makefile
 make -j$(nproc) bindeb-pkg
 
